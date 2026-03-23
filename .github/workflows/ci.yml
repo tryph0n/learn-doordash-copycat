@@ -21,7 +21,7 @@ jobs:
         run: docker run -d --name doordash-test -p 8090:8090 doordash-api
 
       - name: Wait for container to be ready
-        run: curl --retry 30 --retry-delay 2 --retry-connrefused --fail -s http://localhost:8090/status/
+        run: curl --retry 30 --retry-delay 2 --retry-all-errors --fail -s http://localhost:8090/status/
 
       - name: Test GET /
         run: curl --fail -s http://localhost:8090/
