@@ -23,20 +23,11 @@ jobs:
       - name: Wait for container to be ready
         run: curl --retry 30 --retry-delay 2 --retry-all-errors --fail -s http://localhost:8090/status/
 
-      - name: Test GET /
-        run: curl --fail -s http://localhost:8090/
+      - name: Install test dependencies
+        run: pip install pytest httpx
 
-      - name: Test POST /calculate-fee/
-        run: |
-          curl --fail -s -X POST -H "Content-Type: application/json" \
-            -d '{"distance_km": 5.0, "weight_kg": 2.0}' \
-            http://localhost:8090/calculate-fee/
-
-      - name: Test GET /estimate-time/
-        run: curl --fail -s http://localhost:8090/estimate-time/5.0
-
-      - name: Test GET /status/
-        run: curl --fail -s http://localhost:8090/status/
+      - name: Run tests
+        run: pytest -v
 
       - name: Cleanup
         if: always()
